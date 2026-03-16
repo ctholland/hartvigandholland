@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stop the Bleeding — First-Time Homebuyer Calculator</title>
+<meta name="description" content="Find out what you're actually paying in rent vs. what ownership could cost. The Stop the Bleeding Rent vs. Own Calculator — NY Living Solutions | Keller Williams NYC." />
+<meta property="og:title" content="Stop the Bleeding — Rent vs. Own Calculator" />
+<meta property="og:description" content="Find out what you're actually paying in rent vs. what ownership could cost. No hype. Just numbers." />
+<meta property="og:image" content="images/og-stop-the-bleeding.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Stop the Bleeding — Rent vs. Own Calculator" />
+<meta name="twitter:description" content="Find out what you're actually paying in rent vs. what ownership could cost. No hype. Just numbers." />
+<meta name="twitter:image" content="images/og-stop-the-bleeding.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bleed:     #E8294A;
+    --bleed-lt:  #FFF0F2;
+    --equity:    #00A86B;
+    --equity-lt: #EDFAF4;
+    --gold:      #F0A500;
+    --gold-lt:   #FFFBEE;
+    --ink:       #1A1A2E;
+    --body:      #3D3D5C;
+    --muted:     #6B6B8A;
+    --border:    #E4E4F0;
+    --bg:        #F0F0F8;
+    --white:     #ffffff;
+  }
+
+  html { font-size: 16px; }
+  body {
+    font-family: 'Inter', Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    min-height: 100vh;
+    padding: 24px 16px 48px;
+  }
+
+  .page { max-width: 1100px; margin: 0 auto; }
+
+  /* ── HEADER ── */
+  .site-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 28px;
+    padding-bottom: 24px;
+    border-bottom: 2px solid var(--border);
+  }
+  .site-header .event-badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: var(--bleed);
+    color: #fff;
+    padding: 4px 14px;
+    border-radius: 30px;
+    margin-bottom: 10px;
+  }
+  .site-header h1 {
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-size: clamp(28px, 4vw, 44px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+  .site-header h1 em { color: var(--bleed); font-style: normal; }
+  .site-header .sub {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 6px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .agents {
+    text-align: right;
+    line-height: 1.6;
+  }
+  .agents .names {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .agents .brokerage {
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 600;
+  }
+  .agents .lic {
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  /* ── TOGGLE ── */
+  .toggle-row { display: flex; gap: 8px; margin-bottom: 24px; }
+  .tog {
+    padding: 8px 24px;
+    border-radius: 30px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    border: 2px solid var(--border);
+    background: var(--white);
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: all 0.15s;
+  }
+  .tog.on-bleed { border-color: var(--bleed); background: var(--bleed); color: #fff; }
+  .tog.on-teal  { border-color: var(--equity); background: var(--equity); color: #fff; }
+
+  /* ── INPUTS ── */
+  .inputs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px;
+    margin-bottom: 28px;
+  }
+  .ib {
+    background: var(--white);
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    transition: border-color 0.15s;
+  }
+  .ib:focus-within { border-color: var(--bleed); }
+  .ib label {
+    display: block;
+    font-size: 11px;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--ink);
+    margin-bottom: 8px;
+    font-weight: 800;
+  }
+  .ib input[type=number] {
+    width: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: clamp(22px, 2.5vw, 28px);
+    font-weight: 800;
+    color: var(--ink);
+    font-family: 'Inter', Helvetica, Arial, sans-serif;
+  }
+  .ib .rr { display: flex; align-items: center; gap: 10px; flex-wrap: nowrap; }
+  .ib input[type=range] {
+    flex: 1;
+    min-width: 0;
+    accent-color: var(--bleed);
+    height: 6px;
+    cursor: pointer;
+  }
+  .ib .rv {
+    font-size: clamp(18px, 2vw, 22px);
+    font-weight: 800;
+    color: var(--bleed);
+    min-width: 68px;
+    white-space: nowrap;
+    text-align: right;
+    font-family: 'Inter', Helvetica, Arial, sans-serif;
+  }
+  .ib .rsub {
+    font-size: 12px;
+    color: var(--body);
+    margin-top: 4px;
+    font-weight: 700;
+  }
+
+  /* ── STAT CARDS ── */
+  .stats3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+  @media (max-width: 600px) { .stats3 { grid-template-columns: 1fr; } }
+  .sc { border-radius: 14px; padding: 20px 18px; }
+  .sc.s-bleed { background: var(--bleed-lt); border: 2px solid #f5b3bf; }
+  .sc.s-own   { background: var(--equity-lt); border: 2px solid #a3e6cd; }
+  .sc.s-gold  { background: var(--gold-lt);   border: 2px solid #f5d98a; }
+  .sc-label {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .sc.s-bleed .sc-label { color: var(--bleed); }
+  .sc.s-own   .sc-label { color: var(--equity); }
+  .sc.s-gold  .sc-label { color: var(--gold); }
+  .sc-val {
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-size: clamp(28px, 3.5vw, 40px);
+    color: var(--ink);
+    line-height: 1;
+  }
+  .sc-sub { font-size: 12px; color: var(--body); margin-top: 6px; font-weight: 600; }
+
+  /* ── VERDICT ── */
+  .verdict {
+    background: var(--white);
+    border-left: 5px solid var(--gold);
+    border-radius: 0 12px 12px 0;
+    padding: 18px 20px;
+    margin-bottom: 32px;
+    font-size: clamp(14px, 1.6vw, 17px);
+    line-height: 1.7;
+    color: var(--body);
+    box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+    font-weight: 500;
+  }
+  .vnum      { font-weight: 800; }
+  .vnum.pos  { color: var(--equity); }
+  .vnum.neg  { color: var(--bleed); }
+  .vnum.neu  { color: var(--gold); }
+
+  /* ── CHARTS ── */
+  .chart-section { margin-bottom: 28px; }
+  .clabel {
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--ink);
+    margin-bottom: 10px;
+  }
+  .cw  { position: relative; width: 100%; height: 260px; background: var(--white); border-radius: 12px; padding: 16px; border: 2px solid var(--border); }
+  .cw2 { position: relative; width: 100%; height: 240px; background: var(--white); border-radius: 12px; padding: 16px; border: 2px solid var(--border); }
+
+  .leg { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 12px; margin-bottom: 8px; }
+  .li  { display: flex; align-items: center; gap: 7px; font-size: 13px; color: var(--body); font-weight: 700; }
+  .li span { width: 14px; height: 4px; display: inline-block; border-radius: 2px; flex-shrink: 0; }
+
+  /* ── COOP NOTE ── */
+  .coop-note {
+    font-size: 13px;
+    color: var(--body);
+    background: var(--gold-lt);
+    border: 1.5px solid #f5d98a;
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin-bottom: 18px;
+    line-height: 1.6;
+    font-weight: 500;
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    margin-top: 36px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .footer-note {
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.7;
+    max-width: 600px;
+    font-weight: 500;
+  }
+  .footer-brand {
+    font-size: 11px;
+    color: var(--muted);
+    text-align: right;
+    font-weight: 600;
+    line-height: 1.6;
+  }
+  .footer-brand strong { color: var(--body); }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div>
+      <span class="event-badge">First-Time Homebuyer Tool</span>
+      <h1><em>Stop the Bleeding</em><br>Rent vs. Own Calculator</h1>
+      <p class="sub">New York City · First-Time Homebuyer Workshop</p>
+    </div>
+    <div class="agents">
+      <div class="names">Christofer Holland &amp; Rebecca Hartvig</div>
+      <div class="brokerage">NY Living Solutions | Keller Williams NYC</div>
+      <div class="lic">Lic. #10401390448 &amp; #10401379738</div>
+    </div>
+  </header>
+
+  <!-- PROPERTY TYPE TOGGLE -->
+  <div class="toggle-row">
+    <button class="tog on-bleed" id="t-condo" onclick="setType('condo')">Condo</button>
+    <button class="tog"          id="t-coop"  onclick="setType('coop')">Co-op</button>
+  </div>
+
+  <!-- INPUTS -->
+  <div class="inputs-grid">
+    <div class="ib">
+      <label>Monthly rent</label>
+      <input type="number" id="rent" value="4500" step="50">
+    </div>
+    <div class="ib">
+      <label>Purchase price</label>
+      <input type="number" id="price" value="750000" step="10000">
+    </div>
+    <div class="ib">
+      <label>Down payment</label>
+      <div class="rr">
+        <input type="range" id="down" min="3" max="30" step="1" value="20">
+        <span class="rv" id="downVal">20%</span>
+      </div>
+      <div class="rsub" id="downAmt"></div>
+    </div>
+    <div class="ib">
+      <label>Mortgage rate</label>
+      <div class="rr">
+        <input type="range" id="intRate" min="4" max="10" step="0.125" value="6.875">
+        <span class="rv" id="intRateVal">6.9%</span>
+      </div>
+    </div>
+    <div class="ib">
+      <label>Annual rent increase</label>
+      <div class="rr">
+        <input type="range" id="rentInc" min="0" max="8" step="0.5" value="3.5">
+        <span class="rv" id="rentIncVal">3.5%</span>
+      </div>
+    </div>
+    <div class="ib">
+      <label>Home appreciation</label>
+      <div class="rr">
+        <input type="range" id="apprec" min="0" max="8" step="0.5" value="3.5">
+        <span class="rv" id="apprecVal">3.5%</span>
+      </div>
+    </div>
+    <div class="ib">
+      <label id="maintLabel">Common charges + taxes / mo</label>
+      <input type="number" id="maint" value="1400" step="50">
+    </div>
+    <div class="ib">
+      <label>Years to compare</label>
+      <div class="rr">
+        <input type="range" id="horizon" min="3" max="30" step="1" value="10">
+        <span class="rv" id="horizonVal">10 yrs</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- STAT CARDS -->
+  <div class="stats3" id="stats3"></div>
+
+  <!-- CO-OP NOTE -->
+  <div id="coopNote"></div>
+
+  <!-- VERDICT -->
+  <div class="verdict" id="verdict"></div>
+
+  <!-- CHART 1 -->
+  <div class="chart-section">
+    <div class="clabel">Cumulative cash out — rent vs. ownership cost vs. equity</div>
+    <div class="cw"><canvas id="c1"></canvas></div>
+    <div class="leg">
+      <div class="li"><span style="background:#E8294A;"></span>Total rent paid (gone)</div>
+      <div class="li"><span style="background:#8888A8; opacity:0.7;"></span>Ownership cost</div>
+      <div class="li"><span style="background:#00A86B;"></span>Equity building</div>
+    </div>
+  </div>
+
+  <!-- CHART 2 -->
+  <div class="chart-section">
+    <div class="clabel">Net wealth — owner equity vs. renter investing the down payment</div>
+    <div class="cw2"><canvas id="c2"></canvas></div>
+    <div class="leg">
+      <div class="li"><span style="background:#00A86B;"></span>Owner net worth</div>
+      <div class="li"><span style="background:#F0A500;"></span>Renter investing down payment @ 7%/yr</div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <p class="footer-note">
+      Assumptions: 30-year fixed mortgage · 6% seller closing costs deducted from owner net worth ·
+      Renter scenario assumes down payment is invested at 7%/yr market return ·
+      Maintenance/common charges include estimate of property taxes ·
+      <strong>For illustration only — not financial advice.</strong>
+    </p>
+    <div class="footer-brand">
+      <strong>Christofer Holland &amp; Rebecca Hartvig</strong><br>
+      NY Living Solutions | Keller Williams NYC<br>
+      christoferholland.com
+    </div>
+  </footer>
+
+</div><!-- /page -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+  let ch1, ch2, propType = 'condo';
+
+  function setType(t) {
+    propType = t;
+    document.getElementById('t-condo').className = 'tog' + (t === 'condo' ? ' on-bleed' : '');
+    document.getElementById('t-coop').className  = 'tog' + (t === 'coop'  ? ' on-teal'  : '');
+    if (t === 'coop') {
+      document.getElementById('down').value  = 20;
+      document.getElementById('maint').value = 2200;
+      document.getElementById('maintLabel').textContent = 'Monthly maintenance (all-in)';
+      document.getElementById('coopNote').innerHTML =
+        '<div class="coop-note"><strong>Co-op note:</strong> Maintenance fees include property taxes + the building\'s underlying mortgage. Board approval required — typically 20%+ down payment, and some buildings restrict subletting or pied-à-terre use.</div>';
+    } else {
+      document.getElementById('maint').value = 1400;
+      document.getElementById('maintLabel').textContent = 'Common charges + taxes / mo';
+      document.getElementById('coopNote').innerHTML = '';
+    }
+    calc();
+  }
+
+  function fmt(n)  { return '$' + Math.abs(Math.round(n)).toLocaleString(); }
+
+  function calc() {
+    const rent0   = +document.getElementById('rent').value    || 4500;
+    const price   = +document.getElementById('price').value   || 750000;
+    const downPct = +document.getElementById('down').value    / 100;
+    const rate    = +document.getElementById('intRate').value / 100;
+    const rentInc = +document.getElementById('rentInc').value / 100;
+    const appRate = +document.getElementById('apprec').value  / 100;
+    const horizon = +document.getElementById('horizon').value;
+    const maint   = +document.getElementById('maint').value   || 1400;
+
+    document.getElementById('downVal').textContent    = (+document.getElementById('down').value) + '%';
+    document.getElementById('intRateVal').textContent = parseFloat(document.getElementById('intRate').value).toFixed(1) + '%';
+    document.getElementById('rentIncVal').textContent = parseFloat(document.getElementById('rentInc').value).toFixed(1) + '%';
+    document.getElementById('apprecVal').textContent  = parseFloat(document.getElementById('apprec').value).toFixed(1) + '%';
+    document.getElementById('horizonVal').textContent = horizon + ' yrs';
+    document.getElementById('downAmt').textContent    = fmt(price * downPct);
+
+    const loan = price * (1 - downPct);
+    const downAmt = price * downPct;
+    const mr   = rate / 12;
+    const mpay = loan * mr * Math.pow(1 + mr, 360) / (Math.pow(1 + mr, 360) - 1);
+
+    const labels = [], rentCum = [], ownCum = [], equityArr = [], ownerNet = [], renterNet = [];
+    let totalRent = 0, totalOwn = 0, balance = loan, homeVal = price, invested = downAmt, monthRent = rent0;
+
+    for (let y = 1; y <= horizon; y++) {
+      labels.push('Yr ' + y);
+      for (let m = 0; m < 12; m++) {
+        totalRent  += monthRent;
+        totalOwn   += mpay + maint;
+        const interest = balance * mr;
+        balance    -= (mpay - interest);
+        homeVal    *= (1 + appRate / 12);
+        invested   *= (1 + 0.07 / 12);
+        monthRent  *= (1 + rentInc / 12);
+      }
+      const equity = Math.max(0, homeVal - balance);
+      rentCum.push(Math.round(totalRent));
+      ownCum.push(Math.round(totalOwn));
+      equityArr.push(Math.round(equity));
+      ownerNet.push(Math.round(equity - homeVal * 0.06));
+      renterNet.push(Math.round(invested));
+    }
+
+    const fR = rentCum[horizon - 1], fO = ownCum[horizon - 1], fE = equityArr[horizon - 1];
+    const fON = ownerNet[horizon - 1], fRN = renterNet[horizon - 1];
+    const diff    = fON - fRN;
+    const cheaper = fO < fR;
+
+    document.getElementById('stats3').innerHTML = `
+      <div class="sc s-bleed">
+        <div class="sc-label">Rent paid</div>
+        <div class="sc-val">${fmt(fR)}</div>
+        <div class="sc-sub">in ${horizon} yrs · returned: $0</div>
+      </div>
+      <div class="sc s-own">
+        <div class="sc-label">Own cost</div>
+        <div class="sc-val">${fmt(fO)}</div>
+        <div class="sc-sub">mortgage + ${propType === 'coop' ? 'maintenance' : 'charges + taxes'}</div>
+      </div>
+      <div class="sc s-gold">
+        <div class="sc-label">Equity built</div>
+        <div class="sc-val">${fmt(fE)}</div>
+        <div class="sc-sub">home value minus loan balance</div>
+      </div>`;
+
+    document.getElementById('verdict').innerHTML = `
+      Renting costs <span class="vnum neg">${fmt(fR)}</span> over ${horizon} years — and you walk away with <strong>nothing</strong>.
+      Owning costs <span class="vnum neu">${fmt(fO)}</span> —
+      <span class="vnum ${cheaper ? 'pos' : 'neg'}">${cheaper ? fmt(fR - fO) + ' less' : fmt(fO - fR) + ' more'}</span> out of pocket —
+      but you build <span class="vnum pos">${fmt(fE)}</span> in equity.
+      Net wealth advantage of owning vs. renting: <span class="vnum ${diff > 0 ? 'pos' : 'neg'}">${diff > 0 ? '+' : ''}${fmt(Math.abs(diff))}</span>.`;
+
+    const grid = 'rgba(0,0,0,0.07)';
+    const tickStyle = {
+      color: '#1A1A2E',
+      font: { size: 13, weight: '700', family: 'Inter, Helvetica, Arial, sans-serif' }
+    };
+    const yTick = v => '$' + (v >= 1000000 ? (v / 1000000).toFixed(1) + 'M' : Math.round(v / 1000) + 'k');
+
+    if (ch1) ch1.destroy();
+    ch1 = new Chart(document.getElementById('c1'), {
+      type: 'line',
+      data: {
+        labels,
+        datasets: [
+          { data: rentCum,   borderColor: '#E8294A', backgroundColor: '#E8294A18', fill: true,  tension: 0.4, pointRadius: 0, borderWidth: 3 },
+          { data: ownCum,    borderColor: '#8888A8', backgroundColor: 'transparent', fill: false, tension: 0.4, pointRadius: 0, borderWidth: 2, borderDash: [6, 3] },
+          { data: equityArr, borderColor: '#00A86B', backgroundColor: '#00A86B20', fill: true,  tension: 0.4, pointRadius: 0, borderWidth: 3 }
+        ]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { grid: { color: grid }, ticks: { ...tickStyle, autoSkip: true, maxTicksLimit: 12 } },
+          y: { grid: { color: grid }, ticks: { ...tickStyle, callback: yTick } }
+        }
+      }
+    });
+
+    if (ch2) ch2.destroy();
+    ch2 = new Chart(document.getElementById('c2'), {
+      type: 'line',
+      data: {
+        labels,
+        datasets: [
+          { data: ownerNet,  borderColor: '#00A86B', backgroundColor: '#00A86B18', fill: true, tension: 0.4, pointRadius: 0, borderWidth: 3 },
+          { data: renterNet, borderColor: '#F0A500', backgroundColor: '#F0A50018', fill: true, tension: 0.4, pointRadius: 0, borderWidth: 2.5 }
+        ]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { grid: { color: grid }, ticks: { ...tickStyle, autoSkip: true, maxTicksLimit: 12 } },
+          y: { grid: { color: grid }, ticks: { ...tickStyle, callback: yTick } }
+        }
+      }
+    });
+  }
+
+  ['rent', 'price', 'maint'].forEach(id => document.getElementById(id).addEventListener('input', calc));
+  ['down', 'intRate', 'rentInc', 'apprec', 'horizon'].forEach(id => document.getElementById(id).addEventListener('input', calc));
+
+  calc();
+</script>
+</body>
+</html>
