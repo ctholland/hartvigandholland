@@ -1,6 +1,3 @@
-/*
-!/stopthebleeding.html
-!/stbcalculator.html
-!/images/
-!/.gitignore
-!/your-homeownership-roadmap.html
+.DS_Store
+Thumbs.db
+*.log

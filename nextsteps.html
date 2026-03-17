@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Homeownership Roadmap | Hartvig & Holland</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Epilogue:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink:    #1a2744;
+    --paper:  #f5f0e8;
+    --cream:  #ede8dc;
+    --accent: #c8102e;
+    --muted:  #6b6357;
+    --white:  #ffffff;
+  }
+
+  html { scroll-behavior: smooth; overflow-x: hidden; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+    overflow-x: hidden;
+  }
+
+  /* TICKER */
+  .ticker {
+    background: var(--accent);
+    padding: 10px 0;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .ticker-inner {
+    display: inline-block;
+    animation: ticker 36s linear infinite;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #ffffff;
+    font-weight: 600;
+  }
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  /* NAV */
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 48px;
+    background: var(--ink);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .nav-lockup { display: flex; flex-direction: column; gap: 2px; }
+  .nav-brand {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(245,240,232,0.9);
+    font-weight: 600;
+  }
+  .nav-sub {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(245,240,232,0.35);
+  }
+  .nav-event-badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(245,240,232,0.45);
+  }
+
+  /* HERO */
+  .hero {
+    padding: 48px 48px 44px;
+    border-bottom: 1px solid rgba(26,39,68,0.12);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .hero-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 20px;
+    font-weight: 500;
+  }
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(48px, 8vw, 80px);
+    font-weight: 900;
+    line-height: 0.92;
+    letter-spacing: -2px;
+    color: var(--ink);
+    margin-bottom: 28px;
+  }
+  h1 em { font-style: italic; color: var(--accent); }
+  .hero-body {
+    font-family: 'Epilogue', sans-serif;
+    font-size: clamp(15px, 2vw, 18px);
+    line-height: 1.7;
+    color: rgba(26,39,68,0.78);
+    max-width: 540px;
+    text-align: center;
+  }
+
+  /* PANELISTS STRIP */
+  .panelists-strip {
+    background: var(--cream);
+    border-bottom: 1px solid rgba(26,39,68,0.12);
+    padding: 32px 48px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    text-align: center;
+  }
+  .strip-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--muted);
+    flex-shrink: 0;
+  }
+  .panelist-chips { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+  .chip {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink);
+    font-weight: 600;
+    border: 1px solid rgba(26,39,68,0.2);
+    padding: 6px 14px;
+    background: var(--white);
+  }
+
+  /* FORM SECTION */
+  .form-section {
+    padding: 56px 48px 80px;
+    max-width: 860px;
+    margin: 0 auto;
+    width: 100%;
+    text-align: center;
+  }
+  .section-kicker {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 14px;
+  }
+  .section-hed {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(26px, 3.5vw, 38px);
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--ink);
+    margin-bottom: 10px;
+  }
+  .section-hed em { font-style: italic; color: var(--accent); }
+  .section-deck {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--muted);
+    max-width: 520px;
+    margin: 0 auto 36px;
+  }
+  .form-wrap {
+    border: 1px solid rgba(26,39,68,0.14);
+    background: var(--white);
+    box-shadow: 0 4px 32px rgba(26,39,68,0.07);
+  }
+  .form-wrap iframe {
+    display: block;
+    width: 100%;
+    height: 1700px;
+    border: none;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--ink);
+    padding: 40px 48px;
+    border-top: 3px solid var(--accent);
+  }
+  .footer-inner {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 24px;
+    margin-bottom: 28px;
+    text-align: center;
+  }
+  .footer-brand {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(245,240,232,0.6);
+    line-height: 1.9;
+  }
+  .footer-brand strong {
+    font-size: 12px;
+    color: var(--paper);
+    display: block;
+    margin-bottom: 2px;
+  }
+  .footer-lic {
+    display: block;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    color: rgba(245,240,232,0.3);
+  }
+  .footer-disclosure {
+    font-size: 10px;
+    line-height: 1.7;
+    color: rgba(245,240,232,0.22);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding-top: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  /* MOBILE */
+  @media (max-width: 600px) {
+    nav { padding: 14px 20px; }
+    .nav-event-badge { display: none; }
+    .hero { padding: 44px 20px 40px; }
+    .panelists-strip { padding: 24px 20px; }
+    .strip-label { margin-bottom: 4px; }
+    .form-section { padding: 40px 20px 60px; }
+    footer { padding: 32px 20px; }
+    .footer-inner { flex-direction: column; gap: 16px; }
+    .form-wrap iframe { height: 1800px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="ticker">
+  <span class="ticker-inner">
+    Stop the Bleeding: From Renting to Owning &nbsp;·&nbsp; Hartvig &amp; Holland &nbsp;·&nbsp; NY Living Solutions | Keller Williams &nbsp;·&nbsp; First-Time Homebuyer Event &nbsp;·&nbsp; Stop the Bleeding: From Renting to Owning &nbsp;·&nbsp; Hartvig &amp; Holland &nbsp;·&nbsp; NY Living Solutions | Keller Williams &nbsp;·&nbsp; First-Time Homebuyer Event &nbsp;·&nbsp;
+  </span>
+</div>
+
+<nav>
+  <div class="nav-lockup">
+    <span class="nav-brand">Hartvig &amp; Holland</span>
+    <span class="nav-sub">NY Living Solutions · Keller Williams NYC</span>
+  </div>
+  <span class="nav-event-badge">Stop the Bleeding Workshop</span>
+</nav>
+
+<section class="hero">
+  <p class="hero-eyebrow">Post-Event &nbsp;·&nbsp; Your Next Steps</p>
+  <h1>Your<br><em>Homeownership</em><br>Roadmap.</h1>
+  <p class="hero-body">
+    Thank you for being here tonight. Take two minutes to tell us where you are in your journey — we'll make sure the right person follows up with you personally.
+  </p>
+</section>
+
+<div class="panelists-strip">
+  <span class="strip-label">Tonight's panel</span>
+  <div class="panelist-chips">
+    <span class="chip">Rebecca Hartvig</span>
+    <span class="chip">Christofer Holland</span>
+    <span class="chip">Dave Roberts · Chase Bank</span>
+    <span class="chip">Scott Skolnick · Skolnick Law</span>
+  </div>
+</div>
+
+<section class="form-section">
+  <p class="section-kicker">Two minutes &nbsp;·&nbsp; Completely voluntary</p>
+  <h2 class="section-hed">Tell us what you need.<br><em>We'll take it from there.</em></h2>
+  <p class="section-deck">Your answers help us connect you with the right person — whether that's a lender conversation, a legal question, or a buyer consultation. No pressure, no spam.</p>
+
+  <div class="form-wrap">
+    <iframe
+      src="https://docs.google.com/forms/d/e/1FAIpQLSeh8V0-EkWfxtE-Yfbahh5FQwgQNPQcUYJX79RR4oTe5-ysxQ/viewform?embedded=true"
+      title="Your Homeownership Roadmap"
+      frameborder="0"
+      marginheight="0"
+      marginwidth="0"
+      loading="lazy"
+    >Loading…</iframe>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <strong>Rebecca Hartvig &nbsp;&amp;&nbsp; Christofer Holland &nbsp;—&nbsp; NY Living Solutions | KW NYC</strong>
+      <span class="footer-lic">Lic. #10401379738 &nbsp;·&nbsp; Lic. #10401390448</span>
+    </div>
+  </div>
+  <div class="footer-disclosure">
+    Licensed Real Estate Salespersons in the State of New York. This form is for informational and follow-up purposes only and does not constitute a solicitation or agreement. All real estate transactions are subject to market conditions, financing approval, property approval, and applicable laws. We are pledged to the letter and spirit of U.S. policy for equal housing opportunity throughout the nation.
+  </div>
+</footer>
+
+</body>
+</html>
